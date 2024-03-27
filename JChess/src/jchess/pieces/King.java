@@ -8,6 +8,10 @@ package jchess.pieces;
  *
  * @author matteo.ambrosone
  */
-public class King {
-    
+public class King extends Pieces implements Control {
+
+    @Override
+    public boolean canMove() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
