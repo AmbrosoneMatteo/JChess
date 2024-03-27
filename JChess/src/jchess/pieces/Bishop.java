@@ -10,10 +10,10 @@ import jchess.Control;
  *
  * @author matteo.ambrosone
  */
-public class Bishop extends Pieces implements Control {
+public class Bishop extends Pieces {
 
     @Override
-    public boolean canMove() {
+    public boolean canMove(String move) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

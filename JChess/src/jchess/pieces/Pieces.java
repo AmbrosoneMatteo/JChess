@@ -8,7 +8,7 @@ package jchess.pieces;
  *
  * @author matteo.ambrosone
  */
-public abstract class Pieces {
+public abstract class Pieces implements Control {
     private int x;
     private int y;
     private String name;
@@ -46,4 +46,8 @@ public abstract class Pieces {
         this.side = side;
     }
     
+    @Override
+    public boolean canMove(String move) {
+
+    }
 }

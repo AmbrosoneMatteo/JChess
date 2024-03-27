@@ -12,34 +12,34 @@ class Player {
     points: int
 }
 
-class Pieces {
+class Pieces implements Control {
     name: String
     side: String
     x: int
     y: int
 }
 
-class Bishop extends Pieces implements Control {
+class Bishop extends Pieces {
     canMove(): boolean
 }
 
-class Niece extends Pieces implements Control {
+class Niece extends Pieces {
     canMove(): boolean
 }
 
-class Queen extends Pieces implements Control {
+class Queen extends Pieces {
     canMove(): boolean
 }
 
-class Rook extends Pieces implements Control {
+class Rook extends Pieces {
     canMove(): boolean
 }
 
-class King extends Pieces implements Control {
+class King extends Pieces {
     canMove(): boolean
 }
 
-class Pawn extends Pieces implements Control {
+class Pawn extends Pieces {
     canMove(): boolean
 }
 

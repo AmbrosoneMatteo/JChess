@@ -9,5 +9,5 @@ package jchess;
  * @author matteo.ambrosone
  */
 public interface Control {
-    public boolean canMove();
+    public boolean canMove(String move);
 }
