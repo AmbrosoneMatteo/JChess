@@ -9,11 +9,11 @@ package jchess.pieces;
  * @author matteo.ambrosone
  */
 public abstract class Pieces implements Control {
-    private int x;
-    private int y;
-    private String name;
-    private String side;
-
+    protected int x;
+    protected int y;
+    protected String name;
+    protected String side;
+    final protected String[] alphabet = {"a","b","c","d","e","f","g","h"};
     public int getX() {
         return x;
     }
@@ -45,9 +45,9 @@ public abstract class Pieces implements Control {
     public void setSide(String side) {
         this.side = side;
     }
-    
+
     @Override
     public boolean canMove(String move) {
-
+        return false;
     }
 }
