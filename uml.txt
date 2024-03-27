@@ -1,0 +1,48 @@
+class Game{
+    table: Pieces[][]
+    board: Board
+}
+
+class Board {
+
+}
+
+class Player {
+    name: String
+    points: int
+}
+
+class Pieces {
+    name: String
+    side: String
+    x: int
+    y: int
+}
+
+class Bishop extends Pieces implements Control {
+    canMove(): boolean
+}
+
+class Niece extends Pieces implements Control {
+    canMove(): boolean
+}
+
+class Queen extends Pieces implements Control {
+    canMove(): boolean
+}
+
+class Rook extends Pieces implements Control {
+    canMove(): boolean
+}
+
+class King extends Pieces implements Control {
+    canMove(): boolean
+}
+
+class Pawn extends Pieces implements Control {
+    canMove(): boolean
+}
+
+interface Control {
+    canMove(): boolean 
+}
