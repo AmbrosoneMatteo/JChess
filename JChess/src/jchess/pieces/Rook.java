@@ -12,6 +12,14 @@ public class Rook extends Pieces {
 
     @Override
     public boolean canMove(String move) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        boolean output = false;
+        int x_dest = find(move.substring(0,1));
+        int y_dest = Integer.parseInt(move.substring(1,2))-1;
+        if((x_dest==x)&&((y_dest>=0)&(y_dest<=7))) {
+            output = true;
+        } else if((y_dest==y)&&((x_dest>=0)&(x_dest<=7))) {
+            output = true;
+        }
+        return output;
     }
 }
