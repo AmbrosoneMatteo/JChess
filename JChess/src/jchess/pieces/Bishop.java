@@ -10,6 +10,12 @@ package jchess.pieces;
  */
 public class Bishop extends Pieces {
 
+    public Bishop(String position, String side) {
+        this.name = "B";
+        x = find(position.substring(0,1));
+        y = Integer.parseInt(position.substring(1,2))-1;
+        this.side = side;
+    }
     @Override
     public boolean canMove(String move) {
         boolean output = false;

@@ -10,6 +10,12 @@ package jchess.pieces;
  */
 public class Pawn extends Pieces {
 
+    public Pawn(String position, String side) {
+        this.name = "p";
+        x = find(position.substring(0,1));
+        y = Integer.parseInt(position.substring(1,2))-1;
+        this.side = side;
+    }
     @Override
     public boolean canMove(String move) {
         boolean output = false;

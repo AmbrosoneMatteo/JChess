@@ -53,14 +53,10 @@ public abstract class Pieces implements Control {
     public int find(String letter) {
         int output = 0;
         for(int i = 0;i<alphabet.length;i++) {
-            if(alphabet[i]==letter) {
-                return i;
+            if(alphabet[i].equals(letter)) {
+                output = i;
             }
         }
-        return -1;
-    }
-    public void setPosition(String position) {
-        x = find(position.substring(0,1));
-        y = Integer.parseInt(position.substring(1,2))-1;
+        return output;
     }
 }
