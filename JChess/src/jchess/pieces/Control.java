@@ -10,4 +10,5 @@ package jchess.pieces;
  */
 public interface Control {
     public boolean canMove(String move);
+    public boolean givesCheck();
 }

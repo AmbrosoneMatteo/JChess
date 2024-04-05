@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 public class RookTest {
     Rook rook;
     public RookTest() {
-        rook = new Rook();
+        rook = new Rook("a1","w");
     }
     public void testCanMove() {
         rook.setX(3);

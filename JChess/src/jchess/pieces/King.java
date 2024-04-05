@@ -20,4 +20,9 @@ public class King extends Pieces {
     public boolean canMove(String move) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    @Override
+    public boolean givesCheck() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Function can't be implemented'");
+    }
 }

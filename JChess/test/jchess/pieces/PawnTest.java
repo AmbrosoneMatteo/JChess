@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 public class PawnTest {
     Pawn pawn;
     public PawnTest() {
-        pawn = new Pawn();
+        pawn = new Pawn("a2","w");
         pawn.side="w";
     }
     

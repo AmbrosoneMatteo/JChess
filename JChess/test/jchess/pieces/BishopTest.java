@@ -19,7 +19,7 @@ public class BishopTest {
     
     Bishop bishop;
     public BishopTest() {
-        bishop = new Bishop();
+        bishop = new Bishop("c1","w");
     }
     
     @BeforeClass

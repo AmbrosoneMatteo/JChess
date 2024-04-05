@@ -16,6 +16,8 @@ public class Bishop extends Pieces {
         y = Integer.parseInt(position.substring(1,2))-1;
         this.side = side;
     }
+    //it checks if the difference between x and x_dest corrisponds to the difference between y and y_dest and
+    //if the Bishop remains inside the chessboard
     @Override
     public boolean canMove(String move) {
         boolean output = false;
@@ -25,6 +27,11 @@ public class Bishop extends Pieces {
             output=true;
         }
         return output;
+    }
+    @Override
+    public boolean givesCheck() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'givesCheck'");
     }
     
 }

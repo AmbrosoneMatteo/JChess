@@ -17,8 +17,8 @@ import jchess.pieces.Rook;
  * @author matteo.ambrosone
  */
 public class Game {
-    static Pieces[][] table = new Pieces[8][8];
-    static Pieces[] pieces = {
+    static private Pieces[][] table = new Pieces[8][8];
+    static private Pieces[] pieces = {
         new Pawn("a2","w"),
         new Pawn("b2","w"),
         new Pawn("c2","w"),
@@ -70,6 +70,7 @@ public class Game {
         }
     }
     /*
+     * with a manattan mapper it checks if someone is in the middle between the piece and its destination
      * We don't need to check the Knight since he's able to jump over pieces
      */
     public static boolean isSomeoneInTheMiddle(int[] position, int[] destination, String side) {
@@ -83,5 +84,8 @@ public class Game {
             }
         }
         return output;
+    }
+    public static Pieces[][] getTable() {
+        return table; 
     }
 }
