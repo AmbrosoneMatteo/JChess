@@ -19,7 +19,7 @@ public class BishopTest {
     
     Bishop bishop;
     public BishopTest() {
-        bishop = new Bishop("c1","w");
+        bishop = new Bishop("e5","w");
     }
     
     @BeforeClass
@@ -43,10 +43,14 @@ public class BishopTest {
      */
     @Test
     public void testCanMove() {
-        bishop.setX(4);
-        bishop.setY(4);
         String[] valid_moves= {"f4","g3","h2","d4","d6","f6","g7","a1"};
         String[] invalid_moves = {"z3","b1","c2","a8","c0"};
+        for(int i =0; i<valid_moves.length; i++) {
+            assertTrue(bishop.canMove(valid_moves[i]));
+        }
+        for(int i = 0; i<invalid_moves.length;i++) {
+            assertFalse(bishop.canMove(invalid_moves[i]));
+        }
     }
     
 }

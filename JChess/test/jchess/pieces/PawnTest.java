@@ -4,6 +4,7 @@
  */
 package jchess.pieces;
 
+import jchess.Game;
 import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,26 +46,22 @@ public class PawnTest {
     @Test
     public void testCanMoveInitial_2Forward() {
         pawn.setX(1);
-        pawn.setY(2);
+        pawn.setY(1);
         assertTrue(pawn.canMove("b4"));
     }
     
     @Test
     public void testCanMoveInitialForward() {
         pawn.setX(1);
-        pawn.setY(2);
+        pawn.setY(1);
         assertTrue(pawn.canMove("b3"));
     }
     @Test
     public void testCanTake() throws NotImplementedException {
-        /**
-        pawn.setX(1);
-        pawn.setY(4);
-        Pawn black_pawn = new Pawn();
-        black_pawn.setSide("b");
-        black_pawn.setY(5);
-        black_pawn.setX(2);
-        */
-        throw new NotImplementedException("Test not implemented");
+        pawn = new Pawn("d4","w");
+        Game.setPiece(pawn);
+        Pawn black_pawn = new Pawn("e5","b");
+        Game.setPiece(black_pawn);
+        assertTrue(pawn.canMove("e5"));
     }
 }
