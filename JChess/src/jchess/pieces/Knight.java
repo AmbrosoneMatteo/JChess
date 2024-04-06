@@ -28,9 +28,9 @@ public class Knight extends Pieces {
          * if the diference between the x and x_dest is 1 the ifference between y and y_dest must be 2 and viceversa
          * any other combination is an invalid move
         */
-        if (((Math.abs(y_dest-y)==1)&&(Math.abs(x_dest-x)==2))||((Math.abs(y_dest-y)==1)&&(Math.abs(x_dest-x)==2))) {
+        if (((Math.abs(y_dest-y)==1)&&(Math.abs(x_dest-x)==2))||((Math.abs(y_dest-y)==2)&&(Math.abs(x_dest-x)==1))) {
             //if the destination is empty or has an enemy piece the move is valid
-            if ((Game.getTable()[y_dest][x_dest]!=null)||(!Game.getTable()[y_dest][x_dest].getSide().equals(side))) {
+            if ((Game.getTable()[y_dest][x_dest]==null)||(!Game.getTable()[y_dest][x_dest].getSide().equals(side))) {
                 output = true;
             } else if (Game.getTable()[y_dest][x_dest].getSide().equals(side)) { //if the destination has a friendly piece the move is invalid
                 output=false;

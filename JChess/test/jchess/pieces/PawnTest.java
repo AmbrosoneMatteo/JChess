@@ -21,7 +21,6 @@ public class PawnTest {
     Pawn pawn;
     public PawnTest() {
         pawn = new Pawn("a2","w");
-        pawn.side="w";
     }
     
     @BeforeClass
@@ -45,11 +44,14 @@ public class PawnTest {
      */
     @Test
     public void testCanMoveInitial_2Forward() {
-        pawn.setX(1);
-        pawn.setY(1);
-        assertTrue(pawn.canMove("b4"));
+        pawn = new Pawn("d2", "w");
+        assertTrue(pawn.canMove("d4"));
     }
-    
+    @Test
+    public void testBlackCanMoveInitial_2Forward() {
+        pawn = new Pawn("d7", "b");
+        assertTrue(pawn.canMove("d5"));
+    }
     @Test
     public void testCanMoveInitialForward() {
         pawn.setX(1);

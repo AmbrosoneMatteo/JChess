@@ -28,14 +28,14 @@ public class Game {
         new Pawn("f2","w"),
         new Pawn("g2","w"),
         new Pawn("h2","w"),
-        new Pawn("a7","w"),
-        new Pawn("b7","w"),
-        new Pawn("c7","w"),
-        new Pawn("d7","w"),
-        new Pawn("e7","w"),
-        new Pawn("f7","w"),
-        new Pawn("g7","w"),
-        new Pawn("h7","w"),
+        new Pawn("a7","b"),
+        new Pawn("b7","b"),
+        new Pawn("c7","b"),
+        new Pawn("d7","b"),
+        new Pawn("e7","b"),
+        new Pawn("f7","b"),
+        new Pawn("g7","b"),
+        new Pawn("h7","b"),
         new Rook("a1","w"),
         new Rook("h1","w"),
         new Rook("a8","b"),
@@ -53,12 +53,18 @@ public class Game {
         new King("e1","w"),
         new King("e8","b")
     };
+    public Game(){
+        main(new String[] {});
+    }
     public static void main(String[] args) {
         for (int i = 0;i<pieces.length;i++) {
             //System.out.println(pieces[i].getX()+" - "+pieces[i].getY());
             table[pieces[i].getY()][pieces[i].getX()] = pieces[i];
         }
-        
+
+        /**        
+        move("d2d4");
+        System.out.print(table[3][3].getName());
         for(int i = 0; i<table.length;i++) {
             for(int l = 0; l<table.length;l++) {
                 if(table[i][l]==null) {
@@ -69,6 +75,7 @@ public class Game {
             }
             System.out.println();
         }
+         */
     }
     /*
      * It checks if someone is in the middle between the piece and its destination
@@ -156,17 +163,13 @@ public class Game {
         int y = Integer.parseInt(move.substring(1,2))-1;
         int x_dest = find(move.substring(2,3));
         int y_dest = Integer.parseInt(move.substring(3,4))-1;
-        if(table[y][x]==null) {
-            System.out.println("Error piece not found");
-        } else {
-            if(table[y][x].canMove(move.substring(2,4))) {
+        if(table[y][x].canMove(move.substring(2,4))) {
                 //if the piece can move to the destination, 
                 //it gets deleted from the old position and move to the new one
                 Pieces piece = table[y][x];
                 table[y][x] = null;
                 table[y_dest][x_dest] = piece;
                 output= true;
-            }
         }
         return output;
     }
