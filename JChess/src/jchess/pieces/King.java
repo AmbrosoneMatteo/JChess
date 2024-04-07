@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package jchess.pieces;
-
+import jchess.Game;
 /**
  *
  * @author matteo.ambrosone
@@ -20,9 +20,23 @@ public class King extends Pieces {
     public boolean canMove(String move) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    @Override
-    public boolean givesCheck() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Function can't be implemented'");
+    //it checks around if a piece is attacking the king
+    public boolean underCheck() {
+        boolean output = false;
+        Pieces[][] table = Game.getTable();
+        if (y>=2) {
+            if((x>=1)&&(table[y-2][x-1]!=null)&&(table[y-2][x-1].getName().equals("N"))&&(!table[y-2][x-1].getSide().equals(side))) {
+                output=true;
+            } else if((x<=6)&&(table[y-2][x+1]!=null)&&(table[y-2][x+1].getName().equals("N"))&&(!table[y-2][x+1].getSide().equals(side))) {
+                output=true;
+            }
+        } else if(y<=5) {
+            if((x>=1)&&(table[y+2][x-1]!=null)&&(table[y+2][x-1].getName().equals("N"))&&(!table[y-2][x-1].getSide().equals(side))) {
+                output=true;
+            }else if((x<=6)&&(table[y+2][x+1]!=null)&&(table[y+2][x+1].getName().equals("N"))&&(!table[y+2][x+1].getSide().equals(side))) {
+                output=true;
+            }
+        }
+        return output;
     }
 }

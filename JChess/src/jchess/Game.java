@@ -167,8 +167,10 @@ public class Game {
                 //if the piece can move to the destination, 
                 //it gets deleted from the old position and move to the new one
                 Pieces piece = table[y][x];
-                table[y][x] = null;
-                table[y_dest][x_dest] = piece;
+                table[y][x] = null;               
+                piece.setX(x_dest);
+                piece.setY(y_dest);
+                setPiece(piece);
                 output= true;
         }
         return output;

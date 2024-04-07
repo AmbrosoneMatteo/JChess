@@ -24,7 +24,7 @@ public class GameTest {
     //Test of method move 
     @Test
     public void testMove() {
-        String[] moves = {"d2d4","d7d5","b1c3","g8f6","c1f4", "b8c6","g1f3"};
+        String[] moves = {"d2d4","d7d5","b1c3","g8f6","c1f4", "b8c6","g1f3","e7e6","e2e3","f8b4","f1b5","b4c3"};
         for(int i = 0; i<moves.length;i++) {
             assertTrue("move ->"+moves[i]+" is invalid",game.move(moves[i]));
         }

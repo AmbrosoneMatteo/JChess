@@ -51,20 +51,5 @@ public class QueenTest {
         for(int i = 0; i<invalid_moves.length;i++) {
             assertFalse(queen.canMove(invalid_moves[i]));
         }
-    }
-
-    /**
-     * Test of givesCheck method, of class Queen.
-     */
-    //@Test
-    public void testGivesCheck() {
-        System.out.println("givesCheck");
-        Queen instance = null;
-        boolean expResult = false;
-        boolean result = instance.givesCheck();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
+    }    
 }

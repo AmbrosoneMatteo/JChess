@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package jchess.pieces;
-
+import jchess.Game;
 /**
  *
  * @author matteo.ambrosone
@@ -24,14 +24,11 @@ public class Bishop extends Pieces {
         int x_dest = find(move.substring(0,1));
         int y_dest = Integer.parseInt(move.substring(1,2))-1;
         if((Math.abs(y_dest-y)==Math.abs(x_dest-x)&&(((x_dest>=0)&&(x_dest<=7))&&((y_dest>=0)&&(y_dest>=0))))){
-            output=true;
+            Pieces[][] table = Game.getTable();
+            if((table[y_dest][x_dest]==null)||(!table[y_dest][x_dest].getSide().equals(side))){
+                output=true;
+            }
         }
         return output;
     }
-    @Override
-    public boolean givesCheck() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'givesCheck'");
-    }
-    
 }

@@ -40,9 +40,4 @@ public class Pawn extends Pieces {
         }
         return output;
     }
-    @Override
-    public boolean givesCheck() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'givesCheck'");
-    }
 }

@@ -1,6 +1,12 @@
+@startuml
 class Game{
     table: Pieces[][]
     board: Board
+
+    isSomeoneInTheMiddle(): boolean
+    move(String move): boolean
+    getTable: Pieces[][]
+    setPiece(): boolean
 }
 
 class Board {
@@ -17,32 +23,50 @@ class Pieces implements Control {
     side: String
     x: int
     y: int
+    alphabet: String[]
+    setX(): void
+    setY(): void
+    setName(): void
+    setSide(): void
+    getX(): void
+    getY(): void
+    getName(): void
+    getSide(): void
+    canMove(): boolean
 }
 
 class Bishop extends Pieces {
     canMove(): boolean
+    givesCheck(): boolean
 }
 
 class Niece extends Pieces {
     canMove(): boolean
+    givesCheck(): boolean
 }
 
 class Queen extends Pieces {
     canMove(): boolean
+    givesCheck(): boolean
 }
 
 class Rook extends Pieces {
     canMove(): boolean
+    givesCheck(): boolean
 }
 
 class King extends Pieces {
     canMove(): boolean
+    givesCheck(): boolean
 }
 
 class Pawn extends Pieces {
     canMove(): boolean
+    givesCheck(): boolean
 }
 
 interface Control {
     canMove(): boolean 
+    givesCheck(): boolean
 }
+@enduml
