@@ -24,3 +24,7 @@ hs_err_pid*
 replay_pid*
 /JChess/nbproject/private/
 /JChess/build/
+
+# For Intelij
+.idea/
+JChess.iml

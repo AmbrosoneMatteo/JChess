@@ -59,7 +59,7 @@ public class PawnTest {
         assertTrue(pawn.canMove("b3"));
     }
     @Test
-    public void testCanTake() throws NotImplementedException {
+    public void testCanTake() {
         pawn = new Pawn("d4","w");
         Game.setPiece(pawn);
         Pawn black_pawn = new Pawn("e5","b");
