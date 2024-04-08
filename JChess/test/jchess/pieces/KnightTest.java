@@ -4,8 +4,6 @@
  */
 package jchess.pieces;
 
-import jchess.Game;
-import jdk.jshell.spi.ExecutionControl.NotImplementedException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,12 +13,11 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author grimm
+ * @author matteo.ambrosone
  */
-public class PawnTest {
-    Pawn pawn;
-    public PawnTest() {
-        pawn = new Pawn("a2","w");
+public class KnightTest {
+    
+    public KnightTest() {
     }
 
     @org.junit.BeforeClass
@@ -39,46 +36,20 @@ public class PawnTest {
     public void tearDown() throws Exception {
     }
     
-    /**
-     * Test of canMove method, of class Pawn.
-     */
-    @Test
-    public void testCanMoveInitial_2Forward() {
-        pawn = new Pawn("d2", "w");
-        assertTrue(pawn.canMove("d4"));
-    }
-    @Test
-    public void testBlackCanMoveInitial_2Forward() {
-        pawn = new Pawn("d7", "b");
-        assertTrue(pawn.canMove("d5"));
-    }
-    @Test
-    public void testCanMoveInitialForward() {
-        pawn.setX(1);
-        pawn.setY(1);
-        assertTrue(pawn.canMove("b3"));
-    }
-    @Test
-    public void testCanTake() throws NotImplementedException {
-        pawn = new Pawn("d4","w");
-        Game.setPiece(pawn);
-        Pawn black_pawn = new Pawn("e5","b");
-        Game.setPiece(black_pawn);
-        assertTrue(pawn.canMove("e5"));
-    }
 
     /**
-     * Test of canMove method, of class Pawn.
+     * Test of canMove method, of class Knight.
      */
     @org.junit.Test
     public void testCanMove() {
         System.out.println("canMove");
         String move = "";
-        Pawn instance = null;
+        Knight instance = null;
         boolean expResult = false;
         boolean result = instance.canMove(move);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+    
 }

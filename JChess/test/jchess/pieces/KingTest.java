@@ -1,9 +1,9 @@
-package jchess.pieces;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- * */
-import jdk.jshell.spi.ExecutionControl.NotImplementedException;
+ */
+package jchess.pieces;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -13,12 +13,12 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author grimm
+ * @author matteo.ambrosone
  */
-public class RookTest {
-    Rook rook;
-    public RookTest() {
-        rook = new Rook("d4","w");
+public class KingTest {
+    King king;
+    public KingTest() {
+        king = new King("e4","w");
     }
 
     @org.junit.BeforeClass
@@ -36,16 +36,17 @@ public class RookTest {
     @org.junit.After
     public void tearDown() throws Exception {
     }
-    
-    @Test
+    /**
+     * Test of canMove method, of class King.
+     */
+    @org.junit.Test
     public void testCanMove() {
-        String[] valid_moves = {"d5", "a4", "h4","d1","d8"};
-        String[] invalid_moves = {"a1", "h5", "a8","b1","e8"};
-        for(int i =0; i<valid_moves.length; i++) {
-            assertTrue(rook.canMove(valid_moves[i]));
-        }
-        for(int i = 0; i<invalid_moves.length;i++) {
-            assertFalse(rook.canMove(invalid_moves[i]));
+        String[] valid_moves = {"e5","e3","d4","d3","d5","f3","f4","f5"};
+        String[] invalid_moves = {"a5","b1","h6","g7","h8","v3","z4","g5"};
+        for(int i = 0;i<valid_moves.length;i++){
+            assertTrue(king.canMove(valid_moves[i]));
         }
     }
+
+    
 }
