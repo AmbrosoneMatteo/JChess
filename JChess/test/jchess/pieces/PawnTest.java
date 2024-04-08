@@ -22,23 +22,23 @@ public class PawnTest {
     public PawnTest() {
         pawn = new Pawn("a2","w");
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+
+    @org.junit.BeforeClass
+    public static void setUpClass() throws Exception {
     }
 
+    @org.junit.AfterClass
+    public static void tearDownClass() throws Exception {
+    }
+
+    @org.junit.Before
+    public void setUp() throws Exception {
+    }
+
+    @org.junit.After
+    public void tearDown() throws Exception {
+    }
+    
     /**
      * Test of canMove method, of class Pawn.
      */
@@ -65,5 +65,20 @@ public class PawnTest {
         Pawn black_pawn = new Pawn("e5","b");
         Game.setPiece(black_pawn);
         assertTrue(pawn.canMove("e5"));
+    }
+
+    /**
+     * Test of canMove method, of class Pawn.
+     */
+    @org.junit.Test
+    public void testCanMove() {
+        System.out.println("canMove");
+        String move = "";
+        Pawn instance = null;
+        boolean expResult = false;
+        boolean result = instance.canMove(move);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 }

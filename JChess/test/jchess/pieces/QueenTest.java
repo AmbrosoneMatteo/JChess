@@ -21,22 +21,23 @@ public class QueenTest {
         queen = new Queen("e5","w");
         
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
+
+    @org.junit.BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @org.junit.AfterClass
+    public static void tearDownClass() throws Exception {
+    }
+
+    @org.junit.Before
+    public void setUp() throws Exception {
+    }
+
+    @org.junit.After
+    public void tearDown() throws Exception {
     }
     
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of canMove method, of class Queen.

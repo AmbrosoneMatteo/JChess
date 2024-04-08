@@ -1,9 +1,9 @@
-package jchess.pieces;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- * */
-import jdk.jshell.spi.ExecutionControl.NotImplementedException;
+ */
+package jchess.pieces;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -13,12 +13,11 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author grimm
+ * @author matteo.ambrosone
  */
-public class RookTest {
-    Rook rook;
-    public RookTest() {
-        rook = new Rook("d4","w");
+public class ControlTest {
+    
+    public ControlTest() {
     }
 
     @org.junit.BeforeClass
@@ -37,15 +36,26 @@ public class RookTest {
     public void tearDown() throws Exception {
     }
     
-    @Test
+    /**
+     * Test of canMove method, of class Control.
+     */
+    @org.junit.Test
     public void testCanMove() {
-        String[] valid_moves = {"d5", "a4", "h4","d1","d8"};
-        String[] invalid_moves = {"a1", "h5", "a8","b1","e8"};
-        for(int i =0; i<valid_moves.length; i++) {
-            assertTrue(rook.canMove(valid_moves[i]));
-        }
-        for(int i = 0; i<invalid_moves.length;i++) {
-            assertFalse(rook.canMove(invalid_moves[i]));
+        System.out.println("canMove");
+        String move = "";
+        Control instance = new ControlImpl();
+        boolean expResult = false;
+        boolean result = instance.canMove(move);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    public class ControlImpl implements Control {
+
+        public boolean canMove(String move) {
+            return false;
         }
     }
+    
 }
