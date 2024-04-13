@@ -19,12 +19,12 @@ public class Queen extends Pieces {
         this.side = side;
     }
     @Override
-    public boolean canMove(String move) {
+    public boolean canMove(String move, Pieces[][] table) {
         boolean output =false;
         int x_dest = find(move.substring(0,1));
         int y_dest = Integer.parseInt(move.substring(1,2))-1;
         //the queen can move as a Bishop or as a Rook, so we can just copy the controls from the 2 pieces
-        if ((Game.getTable()[y_dest][x_dest].side!= side)&&(!Game.isSomeoneInTheMiddle(new int[] {x,y},new int[] {x_dest,y_dest}, side))) {
+        if ((table[y_dest][x_dest]== null)||(table[y_dest][x_dest].getSide()!= side)) {
             //we must make sure that the piece remains inside in the chesboard
             if((x_dest==x)&&((y_dest>=0)&(y_dest<=7))) {
                 output = true;

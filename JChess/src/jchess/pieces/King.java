@@ -10,6 +10,8 @@ import jchess.Game;
  */
 public class King extends Pieces {
 
+    public boolean can_castle_short  = true;
+    public boolean can_castle_long  = true;
     public King(String position, String side) {
         this.name = "K";
         x = find(position.substring(0,1));
@@ -17,138 +19,68 @@ public class King extends Pieces {
         this.side = side;
     }
     @Override
-    public boolean canMove(String move) {
+    public boolean canMove(String move,Pieces[][] table) {
         boolean output=false;
         int x_dest = find(move.substring(0,1));
         int y_dest = Integer.parseInt(move.substring(1,2))-1;
         if((Math.abs(x_dest-x)<=1)&&(Math.abs(y_dest-y)<=1)) {
-            output = true;
+            if(!underCheck(x_dest,y_dest, table)){
+                     output = true;
+            }
+        } else if ((Math.abs(x_dest-x)<=2)&&(Math.abs(y_dest-y)<=0)) {
+            if(canCastle(table, x_dest)) {
+                output=true;
+            }
         }
-        /**
-        if(output) {
-            output = !underCheck(x_dest,y_dest);
-        }*/
         return output;
     }
     //it checks around if a piece is attacking the king
-    public boolean underCheck(int vx, int vy) {
-        boolean output = false;
-        Pieces[][] table = Game.getTable();
-        if (y>=2) {
-            if((x>=1)&&(table[y-2][x-1]!=null)&&(table[y-2][x-1].getName().equals("N"))&&(!table[y-2][x-1].getSide().equals(side))) {
-                output=true;
-            } else if((x<=6)&&(table[y-2][x+1]!=null)&&(table[y-2][x+1].getName().equals("N"))&&(!table[y-2][x+1].getSide().equals(side))) {
-                output=true;
-            }
-        } else if(y<=5) {
-            if((x>=1)&&(table[y+2][x-1]!=null)&&(table[y+2][x-1].getName().equals("N"))&&(!table[y-2][x-1].getSide().equals(side))) {
-                output=true;
-            }else if((x<=6)&&(table[y+2][x+1]!=null)&&(table[y+2][x+1].getName().equals("N"))&&(!table[y+2][x+1].getSide().equals(side))) {
-                output=true;
-            }
-        } else if (x>=2) {
-            if((y>=1)&&(table[y-1][x-2]!=null)&&(table[y-1][x-2].getName().equals("N"))&&(!table[y-1][x-2].getSide().equals(side))) {
-                output=true;
-            } else if((x<=6)&&(table[y-1][x+2]!=null)&&(table[y-1][x+2].getName().equals("N"))&&(!table[y-1][x+2].getSide().equals(side))) {
-                output=true;
-            }
-        } else if(x<=5) {
-            if((x>=1)&&(table[y+1][x-2]!=null)&&(table[y+1][x-2].getName().equals("N"))&&(!table[y-1][x-2].getSide().equals(side))) {
-                output=true;
-            }else if((x<=6)&&(table[y+1][x+2]!=null)&&(table[y+1][x+2].getName().equals("N"))&&(!table[y+1][x+2].getSide().equals(side))) {
-                output=true;
-            }
+    public boolean underCheck(int vx, int vy, Pieces[][] table) {
+        //if vx or vy is set to -1 it means it is tryng to see if the king is under check at the local position
+        //otherwise it checks if the king can move to another cell without being under check
+        if((vy==-1)||(vy==-1)) {
+            vy=y;
+            vx=x;
         }
-        if(!output) {
-            for(int i = x; i<table.length;i++) {
-                String piece_name = table[i][x].getName();
-                if(table[y][i]!=null) {
-                    if(((piece_name.equals("R"))||(piece_name.equals("Q")))&&(!table[y][i].getSide().equals(side))) {
-                        output = true;
-                        break;
-                    }
-                } 
-            }
+        boolean output = false;
+        for(int i = 0; i<table.length;i++) {
             if(!output) {
-                for(int i = x; i>=0;i--) {
-                    String piece_name = table[i][x].getName();
-                    if(table[y][i]!=null) {
-                        if(((piece_name.equals("R"))||(piece_name.equals("Q")))&&(!table[y][i].getSide().equals(side))) {
-                            output = true;
+                for(int l = 0; l<table.length;l++) {
+                    if((table[i][l]!=null)&&(!table[i][l].getSide().equals(side))) {
+                        String move = alphabet[vx]+(vy+1);
+                        //if the enemy piece can move where the king is it means is attacking it
+                        if(table[i][l].canMove(move,table)){
+                            output=true;
                             break;
                         }
+                    }
+                }                
+            } else {
+                break;
+            }
+        }
+        return output;
+    }
+    public boolean canCastle(Pieces[][] table, int x_dest) {
+        boolean output = false;
+        if((((side.equals("w"))&&(y==0))||((side.equals("b"))&&(y==7)))&&(x==5)&&(!underCheck(-1, -1, table))) {
+            if((x_dest<x)&&(((side.equals("w")))&&(can_castle_long))||(((side.equals("b")))&&(can_castle_short))) {
+                for(int i = x; i>=0;i--) {
+                    if(table[y][i]!=null) {
+                        output = false;
+                        break;
+                    } else {
+                        output = true;
                     } 
                 }
-                if(!output) {
-                    for(int i = y; i<table.length;i++) {
-                        String piece_name = table[i][x].getName();
-                        if(table[i][x]!=null) {
-                            if(((piece_name.equals("R"))||(piece_name.equals("Q")))&&(!table[i][x].getSide().equals(side))) {
-                                output = true;
-                                break;
-                            }
-                        } 
-                    }
-                    if(!output) {
-                        for(int i = y; i>=0;i--) {
-                           String piece_name = table[i][x].getName();
-                           if(table[i][x]!=null) {
-                                if(((piece_name.equals("R"))||(piece_name.equals("Q")))&&(!table[i][x].getSide().equals(side))) {
-                                    output = true;
-                                    break;
-                                }
-                            } 
-                        }
-                    }
-                }
-            }
-        }
-        if(!output) {
-            int virt_y =y;
-            while (y>=0) {
-                for(int i=x;i>=0;i++) {
-                    String piece_name = table[i][x].getName();
-                    virt_y--;
-                    if((((piece_name.equals("B"))||(piece_name.equals("Q")))||(piece_name.equals("Q")))&&(!table[i][x].getSide().equals(side))) {
-                        output = true;
+            } else if((((side.equals("w")))&&(can_castle_short))||(((side.equals("b")))&&(can_castle_long)))  {
+                for(int i = x; i<=7;i++) {
+                    if(table[y][i]!=null) {
+                        output = false;
                         break;
-                    }
-                }
-            }
-            if(!output) {
-                while(y<table.length) {
-                    for(int i=x;i>=0;i++) {
-                        String piece_name = table[i][x].getName();
-                        virt_y++;
-                        if((table[i][x].getName().equals("R"))&&(!table[i][x].getSide().equals(side))) {
-                            output = true;
-                            break;
-                        }
-                    }
-                }
-                if(!output) {
-                    while(y>=0) {
-                        for(int i=x;i>=0;i--) {
-                            String piece_name = table[i][x].getName();
-                            virt_y--;
-                            if((table[i][x].getName().equals("R"))&&(!table[i][x].getSide().equals(side))) {
-                                output = true;
-                                break;
-                            }
-                        }
-                    }
-                    if(!output) {
-                        while(y<table.length) {
-                            for(int i=x;i>=0;i--) {
-                                String piece_name = table[i][x].getName();
-                                virt_y++;
-                                if((table[i][x].getName().equals("R"))&&(!table[i][x].getSide().equals(side))) {
-                                    output = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
+                    } else {
+                        output = true;
+                    } 
                 }
             }
         }

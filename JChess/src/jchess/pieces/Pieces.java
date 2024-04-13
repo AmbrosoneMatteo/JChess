@@ -47,7 +47,7 @@ public abstract class Pieces implements Control {
     }
 
     @Override
-    public boolean canMove(String move) {
+    public boolean canMove(String move,Pieces[][] table) {
         return false;
     }
     public int find(String letter) {

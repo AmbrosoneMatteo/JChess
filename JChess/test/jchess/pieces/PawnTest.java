@@ -19,8 +19,12 @@ import static org.junit.Assert.*;
  */
 public class PawnTest {
     Pawn pawn;
+    Game game;
+    Pieces[][] table;
     public PawnTest() {
+        game = new Game("normal");
         pawn = new Pawn("a2","w");
+        game.setPiece(pawn);
     }
 
     @org.junit.BeforeClass
@@ -44,27 +48,33 @@ public class PawnTest {
      */
     @Test
     public void testCanMoveInitial_2Forward() {
+        game = new Game("normal");
         pawn = new Pawn("d2", "w");
-        assertTrue(pawn.canMove("d4"));
+        game.setPiece(pawn);
+        assertTrue(pawn.canMove("d4",game.getTable()));
     }
     @Test
     public void testBlackCanMoveInitial_2Forward() {
+        game = new Game("normal");
         pawn = new Pawn("d7", "b");
-        assertTrue(pawn.canMove("d5"));
+        game.setPiece(pawn);
+        assertTrue(pawn.canMove("d5",game.getTable()));
     }
     @Test
     public void testCanMoveInitialForward() {
-        pawn.setX(1);
-        pawn.setY(1);
-        assertTrue(pawn.canMove("b3"));
+        game = new Game("normal");
+        pawn = new Pawn("b1", "w");
+        game.setPiece(pawn);
+        assertTrue(pawn.canMove("b2",game.getTable()));
     }
     @Test
     public void testCanTake() {
+        game = new Game("normal");
         pawn = new Pawn("d4","w");
-        Game.setPiece(pawn);
+        game.setPiece(pawn);
         Pawn black_pawn = new Pawn("e5","b");
-        Game.setPiece(black_pawn);
-        assertTrue(pawn.canMove("e5"));
+        game.setPiece(black_pawn);
+        assertTrue(pawn.canMove("e5",game.getTable()));
     }
 
     /**
@@ -72,13 +82,6 @@ public class PawnTest {
      */
     @org.junit.Test
     public void testCanMove() {
-        System.out.println("canMove");
-        String move = "";
-        Pawn instance = null;
-        boolean expResult = false;
-        boolean result = instance.canMove(move);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 }

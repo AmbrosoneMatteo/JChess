@@ -20,7 +20,7 @@ public class Knight extends Pieces {
     }
     //it checks if the piece can move
     @Override
-    public boolean canMove(String move) {
+    public boolean canMove(String move,Pieces[][] table) {
         boolean output = false;
         int x_dest = find(move.substring(0,1));
         int y_dest = Integer.parseInt(move.substring(1,2))-1;
@@ -30,9 +30,9 @@ public class Knight extends Pieces {
         */
         if (((Math.abs(y_dest-y)==1)&&(Math.abs(x_dest-x)==2))||((Math.abs(y_dest-y)==2)&&(Math.abs(x_dest-x)==1))) {
             //if the destination is empty or has an enemy piece the move is valid
-            if ((Game.getTable()[y_dest][x_dest]==null)||(!Game.getTable()[y_dest][x_dest].getSide().equals(side))) {
+            if ((table[y_dest][x_dest]==null)||(!table[y_dest][x_dest].getSide().equals(side))) {
                 output = true;
-            } else if (Game.getTable()[y_dest][x_dest].getSide().equals(side)) { //if the destination has a friendly piece the move is invalid
+            } else if (table[y_dest][x_dest].getSide().equals(side)) { //if the destination has a friendly piece the move is invalid
                 output=false;
             }
         }

@@ -19,12 +19,11 @@ public class Bishop extends Pieces {
     //it checks if the difference between x and x_dest corrisponds to the difference between y and y_dest and
     //if the Bishop remains inside the chessboard
     @Override
-    public boolean canMove(String move) {
+    public boolean canMove(String move,Pieces[][] table) {
         boolean output = false;
         int x_dest = find(move.substring(0,1));
         int y_dest = Integer.parseInt(move.substring(1,2))-1;
         if((Math.abs(y_dest-y)==Math.abs(x_dest-x)&&(((x_dest>=0)&&(x_dest<=7))&&((y_dest>=0)&&(y_dest>=0))))){
-            Pieces[][] table = Game.getTable();
             if((table[y_dest][x_dest]==null)||(!table[y_dest][x_dest].getSide().equals(side))){
                 output=true;
             }

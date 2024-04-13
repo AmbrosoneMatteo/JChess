@@ -18,7 +18,8 @@ import jchess.pieces.Rook;
  */
 public class Game {
     final static protected String[] alphabet = {"a","b","c","d","e","f","g","h"};
-    static private Pieces[][] table = new Pieces[8][8];
+    private Pieces[][] table = new Pieces[8][8];
+    public int[][] king_pos = {{0,4},{7,4}};
     static private Pieces[] pieces = {
         new Pawn("a2","w"),
         new Pawn("b2","w"),
@@ -53,14 +54,31 @@ public class Game {
         new King("e1","w"),
         new King("e8","b")
     };
-    public Game(){
-        main(new String[] {});
-    }
-    public static void main(String[] args) {
-        for (int i = 0;i<pieces.length;i++) {
-            //System.out.println(pieces[i].getX()+" - "+pieces[i].getY());
-            table[pieces[i].getY()][pieces[i].getX()] = pieces[i];
+    public Game(String mode){
+        switch(mode) {
+                case "test": break;
+                default:  initialize();
         }
+    }
+    public  void initialize() {
+        for (var piece : pieces) {
+            //System.out.println(pieces[i].getX()+" - "+pieces[i].getY());
+            table[piece.getY()][piece.getX()] = piece;
+        }
+        /**
+        move("d2d4");
+        System.out.print(table[3][3].getName());
+        for(int i = 0; i<table.length;i++) {
+        for(int l = 0; l<table.length;l++) {
+        if(table[i][l]==null) {
+        System.out.print(" ");
+        } else {
+        System.out.print(table[i][l].getName());
+        }
+        }
+        System.out.println();
+        }
+         */
 
         /**        
         move("d2d4");
@@ -80,8 +98,9 @@ public class Game {
     /*
      * It checks if someone is in the middle between the piece and its destination
      * We don't need to check the Knight since he's able to jump over pieces
+     * or the King since he's not able to move over 2 cells
      */
-    public static boolean isSomeoneInTheMiddle(int[] position, int[] destination, String side) {
+    public  boolean isSomeoneInTheMiddle(int[] position, int[] destination, String side) {
         boolean output = false;
         int[] cur = {0,0};
         //if the row doesn't change we just need to cycle the piece's column to see if ther's a piece in the middle
@@ -157,13 +176,13 @@ public class Game {
         }
         return output;
     }
-    public static boolean move(String move) {
+    public boolean move(String move) {
         boolean output = false;
         int x = find(move.substring(0,1));
         int y = Integer.parseInt(move.substring(1,2))-1;
         int x_dest = find(move.substring(2,3));
         int y_dest = Integer.parseInt(move.substring(3,4))-1;
-        if(table[y][x].canMove(move.substring(2,4))) {
+        if(table[y][x].canMove(move.substring(2,4),table)) {
                 //if the piece can move to the destination, 
                 //it gets deleted from the old position and move to the new one
                 Pieces piece = table[y][x];
@@ -172,13 +191,52 @@ public class Game {
                 piece.setY(y_dest);
                 setPiece(piece);
                 output= true;
+                King king=new King("a1","w");
+                boolean is_white = false;
+                if(table[y][x].getSide().equals("w")) {
+                     king = (King) table[king_pos[0][0]][king_pos[0][1]];
+                     is_white=true;
+                } else {
+                     king = (King) table[king_pos[1][0]][king_pos[1][1]];
+                }
+                //it checks if are the towers or the kings that are tryng to move 
+                //if that so it cancels the ability of the king to caste later on in the game
+                //the piece that is controlled must be able to move otherwise is useless to check if the king can't blunder anymore
+                if((((y==0)&&(is_white))||((y==7)&&(!is_white)))&&((king.can_castle_long)||(king.can_castle_short))&&output) {
+                    if(x==0) {
+                      if((table[y][x].getName().equals("R"))) {
+                        if(is_white) {
+                                king.can_castle_long=false;
+                            } else {
+                                king.can_castle_short=false;
+                            }
+                        }  else if(table[y][x].getName().equals("K")) {
+                                king.can_castle_short=false;
+                                king.can_castle_long=false;
+                        }
+                    } else if(x==7) {
+                     if((table[y][x].getName().equals("R"))) {
+                        if(is_white) {
+                                king.can_castle_short=false;
+                        } else {
+                                king.can_castle_long=false;
+                        }
+                     }else if(table[y][x].getName().equals("K")) {
+                                king.can_castle_short=false;
+                                king.can_castle_long=false;
+                      }
+                   }
+                }
         }
         return output;
     }
-    public static Pieces[][] getTable() {
+    public Pieces[][] getStaticTable() {
         return table; 
     }
-    public static void setPiece(Pieces Piece) {
+    public Pieces[][] getTable() {
+        return table; 
+    }
+    public void setPiece(Pieces Piece) {
         table[Piece.getY()][Piece.getX()] = Piece;
     }
 }

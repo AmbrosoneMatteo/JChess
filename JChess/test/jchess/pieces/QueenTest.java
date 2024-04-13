@@ -4,6 +4,7 @@
  */
 package jchess.pieces;
 
+import jchess.Game;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,6 +18,7 @@ import static org.junit.Assert.*;
  */
 public class QueenTest {
     Queen queen;
+    Game game;
     public QueenTest() {
         queen = new Queen("e5","w");
         
@@ -44,13 +46,15 @@ public class QueenTest {
      */
     @Test
     public void testCanMove() {
+        game = new Game("test");
+        game.setPiece(queen);
         String[] valid_moves = {"f4","g3","h2","d4","d6","f6","g7","a1","e1","e8","a5","h5"};
         String[] invalid_moves = {"b1","c2","c4","c6","a8","b7"};
         for(int i =0; i<valid_moves.length; i++) {
-            assertTrue(queen.canMove(valid_moves[i]));
+            assertTrue(queen.canMove(valid_moves[i],game.getTable()));
         }
         for(int i = 0; i<invalid_moves.length;i++) {
-            assertFalse(queen.canMove(invalid_moves[i]));
+            assertFalse(queen.canMove(invalid_moves[i],game.getTable()));
         }
     }    
 }

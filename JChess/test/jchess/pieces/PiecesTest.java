@@ -149,14 +149,6 @@ public class PiecesTest {
      */
     @org.junit.Test
     public void testCanMove() {
-        System.out.println("canMove");
-        String move = "";
-        Pieces instance = new PiecesImpl();
-        boolean expResult = false;
-        boolean result = instance.canMove(move);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**

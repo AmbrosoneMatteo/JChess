@@ -9,5 +9,5 @@ package jchess.pieces;
  * @author matteo.ambrosone
  */
 public interface Control {
-    public boolean canMove(String move);
+    public boolean canMove(String move,Pieces[][] table);
 }

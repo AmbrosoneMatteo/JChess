@@ -18,7 +18,7 @@ public class Rook extends Pieces {
     }
     
     @Override
-    public boolean canMove(String move) {
+    public boolean canMove(String move, Pieces[][] table) {
         boolean output = false;
         int x_dest = find(move.substring(0,1));
         int y_dest = Integer.parseInt(move.substring(1,2))-1;
