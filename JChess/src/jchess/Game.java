@@ -17,9 +17,14 @@ import jchess.pieces.Rook;
  * @author matteo.ambrosone
  */
 public class Game {
+    final public static String red = "\033[31;1m";
+    final public static String blue = "\033[34;1m";
+    final public static  String reset = "\033[0m";
     final static protected String[] alphabet = {"a","b","c","d","e","f","g","h"};
     private Pieces[][] table = new Pieces[8][8];
     public int[][] king_pos = {{0,4},{7,4}};
+    public boolean white_under_check = false;
+    public boolean black_under_check = false;    
     static private Pieces[] pieces = {
         new Pawn("a2","w"),
         new Pawn("b2","w"),
@@ -95,78 +100,6 @@ public class Game {
         }
          */
     }
-    /*
-     * It checks if someone is in the middle between the piece and its destination
-     * We don't need to check the Knight since he's able to jump over pieces
-     * or the King since he's not able to move over 2 cells
-     */
-    public  boolean isSomeoneInTheMiddle(int[] position, int[] destination, String side) {
-        boolean output = false;
-        int[] cur = {0,0};
-        //if the row doesn't change we just need to cycle the piece's column to see if ther's a piece in the middle
-        if((position[0] == destination[0])&&(position[1] != destination[1])) {
-            cur[0] = position[0];
-            for(int i  = 0;i<Math.abs(position[1]-destination[1]);i++){
-                if (position[1]<destination[1]) {
-                    cur[1] = position[1]-i;
-                } else {
-                    cur[1] = position[1]+i;
-                }
-                if (table[cur[1]][cur[0]]==null) {//if the cell dosn't house a piece the condition it's true
-                    output=true;
-                } else {
-                    output = false;
-                    break;
-                }
-            }
-        } 
-        //if the column doesn't change we just need to cycle the piece's row to see if ther's a piece in the middle
-        else if((position[1] == destination[1]&&(position[0] != destination[0]))) {
-            cur[1] = position[1];
-            for(int i  = 0;i<Math.abs(position[0]-destination[0]);i++){
-                if (position[1]<destination[1]) { //the piece is moving down
-                    cur[0] = position[0]-i;
-                } else {//the piece is moving up
-                    cur[0] = position[0]+i;
-                }
-                if (table[cur[1]][cur[0]]==null) {//if the cell dosn't house a piece the condition it's true
-                    output=true;
-                } else {
-                    output = false;
-                    break;
-                }
-            }
-        }
-        //if the row and the column change we need to check in the diagonal line if there's a piece in the middle
-        else  {
-            cur[0] = position[0];
-            cur[1] = position[1];
-            for(int i  = 0;i<Math.abs(position[1]-destination[1]);i++){
-                if (position[1]<destination[1]) { //the piece is moving down
-                    if(position[0]<destination[0]) {  //the piece is moving right
-                        cur[0] = position[0]-i;
-                    } else {//the piece is moving left
-                        cur[0] = position[0]+i;
-                    }
-                    cur[1] = position[1]-i;
-                } else { //the piece is moving up
-                    if(position[0]<destination[0]) {//the piece is moving right
-                        cur[0] = position[0]-i;
-                    } else {//the piece is moving left
-                        cur[0] = position[0]+i;
-                    }
-                    cur[1] = position[1]+i;
-                }
-                if (table[cur[1]][cur[0]]==null) { //if the cell dosn't house a piece the condition it's true
-                    output=true;
-                } else {
-                    output = false;
-                    break;
-                }
-            }
-        }
-        return output;
-    }
     public static int find(String letter) {
         int output = 0;
         for(int i = 0;i<alphabet.length;i++) {
@@ -183,51 +116,60 @@ public class Game {
         int x_dest = find(move.substring(2,3));
         int y_dest = Integer.parseInt(move.substring(3,4))-1;
         if(table[y][x].canMove(move.substring(2,4),table)) {
-                //if the piece can move to the destination, 
-                //it gets deleted from the old position and move to the new one
-                Pieces piece = table[y][x];
-                table[y][x] = null;               
-                piece.setX(x_dest);
-                piece.setY(y_dest);
-                setPiece(piece);
-                output= true;
-                King king=new King("a1","w");
-                boolean is_white = false;
-                if(table[y][x].getSide().equals("w")) {
-                     king = (King) table[king_pos[0][0]][king_pos[0][1]];
-                     is_white=true;
-                } else {
-                     king = (King) table[king_pos[1][0]][king_pos[1][1]];
-                }
-                //it checks if are the towers or the kings that are tryng to move 
-                //if that so it cancels the ability of the king to caste later on in the game
-                //the piece that is controlled must be able to move otherwise is useless to check if the king can't blunder anymore
-                if((((y==0)&&(is_white))||((y==7)&&(!is_white)))&&((king.can_castle_long)||(king.can_castle_short))&&output) {
-                    if(x==0) {
-                      if((table[y][x].getName().equals("R"))) {
-                        if(is_white) {
-                                king.can_castle_long=false;
-                            } else {
-                                king.can_castle_short=false;
-                            }
-                        }  else if(table[y][x].getName().equals("K")) {
-                                king.can_castle_short=false;
-                                king.can_castle_long=false;
-                        }
-                    } else if(x==7) {
-                     if((table[y][x].getName().equals("R"))) {
-                        if(is_white) {
-                                king.can_castle_short=false;
+            //if the piece can move to the destination, 
+            //it gets deleted from the old position and move to the new one
+            Pieces piece = table[y][x];
+            table[y][x] = null;               
+            piece.setX(x_dest);
+            piece.setY(y_dest);
+            setPiece(piece);
+            output= true;
+            King king=new King("a1","w");
+            boolean is_white = false;
+            if(table[y_dest][x_dest].getSide().equals("w")) {
+                 king = (King) table[king_pos[0][0]][king_pos[0][1]];
+                 is_white=true;
+            } else {
+                 king = (King) table[king_pos[1][0]][king_pos[1][1]];
+            }
+            //it checks if are the towers or the kings that are tryng to move 
+            //if that so it cancels the ability of the king to caste later on in the game
+            //the piece that is controlled must be able to move otherwise is useless to check if the king can't blunder anymore
+            if((((y==0)&&(is_white))||((y==7)&&(!is_white)))&&((king.can_castle_long)||(king.can_castle_short))&&output&&((piece.getName().equals("R"))||(piece.getName().equals("K")))) {
+                if(x==0) {
+                  if((piece.getName().equals("R"))) {
+                    if(is_white) {
+                            king.can_castle_long=false;
                         } else {
-                                king.can_castle_long=false;
+                            king.can_castle_short=false;
                         }
-                     }else if(table[y][x].getName().equals("K")) {
-                                king.can_castle_short=false;
-                                king.can_castle_long=false;
-                      }
-                   }
-                }
+                    }  else if(piece.getName().equals("K")) {
+                            king.can_castle_short=false;
+                            king.can_castle_long=false;
+                    }
+                } else if(x==7) {
+                 if((piece.getName().equals("R"))) {
+                    if(is_white) {
+                            king.can_castle_short=false;
+                    } else {
+                            king.can_castle_long=false;
+                    }
+                 }else if(piece.getName().equals("K")) {
+                            king.can_castle_short=false;
+                            king.can_castle_long=false;
+                  }
+               }
+               //if after the move the player king is under check it means that the piece that the ue moved was
+               //in between the king and its checker, so it's an invalid move, if the piece moved is the king no checks is needed
+            } if((!piece.getName().equals("K"))&&(king.underCheck(-1, -1, table))) {
+                    piece.setX(x_dest);
+                    piece.setY(y_dest);
+                    table[y_dest][x_dest] = null;      
+                    setPiece(piece);
+                    output= false;
+            }
         }
+        printTerminalChessboard();
         return output;
     }
     public Pieces[][] getStaticTable() {
@@ -238,5 +180,30 @@ public class Game {
     }
     public void setPiece(Pieces Piece) {
         table[Piece.getY()][Piece.getX()] = Piece;
+    }
+    public void printTerminalChessboard() {
+        boolean white_cell = false;
+        for(var i: table) {
+            for(var l: i) {
+                if(l!=null) {
+                    if(l.getSide().equals("w")) {
+                        System.out.print(blue+l.getName()+reset);
+                    } else {
+                        System.out.print(blue+l.getName()+reset);
+                    }
+                } else {
+                    if(white_cell) {
+                        System.out.print("#");
+                    } else {
+                        System.out.print(" ");
+                    }
+                }
+                if(white_cell) {white_cell=false;} else {white_cell=true;}
+            }
+            System.out.println();
+        }
+        for (int c = 0; c < 3; c++)  {
+            System.out.println();
+        }
     }
 }

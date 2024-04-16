@@ -69,7 +69,7 @@ public class PawnTest {
     }
     @Test
     public void testCanTake() {
-        game = new Game("normal");
+        game = new Game("test");
         pawn = new Pawn("d4","w");
         game.setPiece(pawn);
         Pawn black_pawn = new Pawn("e5","b");

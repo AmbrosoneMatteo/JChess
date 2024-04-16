@@ -27,6 +27,9 @@ public class Bishop extends Pieces {
             if((table[y_dest][x_dest]==null)||(!table[y_dest][x_dest].getSide().equals(side))){
                 output=true;
             }
+            if((output)&&(isSomeoneInTheMiddle(move,table))) {
+                output=false;
+            }
         }
         return output;
     }

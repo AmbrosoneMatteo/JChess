@@ -58,5 +58,15 @@ public class BishopTest {
             assertFalse(bishop.canMove(invalid_moves[i],table));
         }
     }
-    
+   @Test
+    public void testIsSomeoneInTheMiddle() {
+        game = new Game("nortmal");
+        System.out.println("//-->Starting testMove()");
+        String[] moves = {"d2d4","d7d5","b1c3","g8f6","c1f4", "b8c6","g1f3","e7e6","e2e3","f8b4"};
+        for(int i = 0; i<moves.length;i++) {
+            assertTrue("move ->"+moves[i]+" is invalid",game.move(moves[i]));
+        }
+        assertTrue(game.getTable()[3][1].isSomeoneInTheMiddle("e1", game.getTable()));
+        System.out.println("//-->Ending testMove()");
+    }
 }

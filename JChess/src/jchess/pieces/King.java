@@ -42,12 +42,12 @@ public class King extends Pieces {
             vy=y;
             vx=x;
         }
+        String move = alphabet[vx]+(vy+1);
         boolean output = false;
         for(int i = 0; i<table.length;i++) {
             if(!output) {
                 for(int l = 0; l<table.length;l++) {
                     if((table[i][l]!=null)&&(!table[i][l].getSide().equals(side))) {
-                        String move = alphabet[vx]+(vy+1);
                         //if the enemy piece can move where the king is it means is attacking it
                         if(table[i][l].canMove(move,table)){
                             output=true;

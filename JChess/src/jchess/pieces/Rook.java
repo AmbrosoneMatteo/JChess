@@ -28,6 +28,9 @@ public class Rook extends Pieces {
         } else if((y_dest==y)&&((x_dest>=0)&(x_dest<=7))) {
             output = true;
         }
+        if((output)&&(isSomeoneInTheMiddle(move,table))) {
+            output=false;
+        }
         return output;
     }
 }
