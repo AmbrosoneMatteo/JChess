@@ -28,3 +28,4 @@ replay_pid*
 # For Intelij
 .idea/
 JChess.iml
+out/
