@@ -63,9 +63,9 @@ public class King extends Pieces {
     }
     public boolean canCastle(Pieces[][] table, int x_dest) {
         boolean output = false;
-        if((((side.equals("w"))&&(y==0))||((side.equals("b"))&&(y==7)))&&(x==5)&&(!underCheck(-1, -1, table))) {
+        if((((side.equals("w"))&&(y==0))||((side.equals("b"))&&(y==7)))&&(x==4)&&(!underCheck(-1, -1, table))) {
             if((x_dest<x)&&(((side.equals("w")))&&(can_castle_long))||(((side.equals("b")))&&(can_castle_short))) {
-                for(int i = x; i>=0;i--) {
+                for(int i = x-1; i>0;i--) {
                     if(table[y][i]!=null) {
                         output = false;
                         break;
@@ -74,7 +74,7 @@ public class King extends Pieces {
                     } 
                 }
             } else if((((side.equals("w")))&&(can_castle_short))||(((side.equals("b")))&&(can_castle_long)))  {
-                for(int i = x; i<=7;i++) {
+                for(int i = x+1; i<7;i++) {
                     if(table[y][i]!=null) {
                         output = false;
                         break;

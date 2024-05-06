@@ -57,7 +57,7 @@ public abstract class Pieces implements Control {
         int x_dest = find(destination.substring(0,1));
         int y_dest = Integer.parseInt(destination.substring(1,2))-1;
         //if the row doesn't change we just need to cycle the piece's column to see if ther's a piece in the middle
-        while((x_dest!=x)&&(y_dest!=y)) {
+        while((x_dest!=x)||(y_dest!=y)) {
             if(x_dest<x) {
                 x_dest++;
             } else if (x_dest>x) {
@@ -68,10 +68,14 @@ public abstract class Pieces implements Control {
             } else if (y_dest>y) {
                 y_dest--;
             }
-            if((table[y_dest][x_dest]!=null)&&((x_dest!=x)&&(y_dest!=y))) {
-                output = true;
-                break;
-            }
+             if((x_dest!=x)||(y_dest!=y)) {
+                 if(table[y_dest][x_dest]!=null) {
+                     output = true;
+                     break;
+                 }
+             } else {
+                 break;
+             }
         } 
         return output;
     }
