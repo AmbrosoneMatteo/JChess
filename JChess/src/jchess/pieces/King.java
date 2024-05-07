@@ -66,7 +66,7 @@ public class King extends Pieces {
         if((((side.equals("w"))&&(y==0))||((side.equals("b"))&&(y==7)))&&(x==4)&&(!underCheck(-1, -1, table))) {
             if((x_dest<x)&&(((side.equals("w")))&&(can_castle_long))||(((side.equals("b")))&&(can_castle_short))) {
                 for(int i = x-1; i>0;i--) {
-                    if(table[y][i]!=null) {
+                    if((table[y][i]!=null)&&(!underCheck(x,y,table))) {
                         output = false;
                         break;
                     } else {
@@ -75,7 +75,7 @@ public class King extends Pieces {
                 }
             } else if((((side.equals("w")))&&(can_castle_short))||(((side.equals("b")))&&(can_castle_long)))  {
                 for(int i = x+1; i<7;i++) {
-                    if(table[y][i]!=null) {
+                    if((table[y][i]!=null)&&(!underCheck(x,y,table))) {
                         output = false;
                         break;
                     } else {

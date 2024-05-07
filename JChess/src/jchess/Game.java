@@ -116,7 +116,7 @@ public class Game {
         int x_dest = find(move.substring(2,3));
         int y_dest = Integer.parseInt(move.substring(3,4))-1;
         if(table[y][x].canMove(move.substring(2,4),table)) {
-            //if the piece can move to the destination, 
+            //if the piece can move to the destination,
             //it gets deleted from the old position and move to the new one
             Pieces piece = table[y][x];
             table[y][x] = null;               
@@ -124,47 +124,61 @@ public class Game {
             piece.setY(y_dest);
             setPiece(piece);
             output= true;
-            King king=new King("a1","w");
             boolean is_white = false;
-            if(table[y_dest][x_dest].getSide().equals("w")) {
-                 king = (King) table[king_pos[0][0]][king_pos[0][1]];
-                 is_white=true;
-            } else {
-                 king = (King) table[king_pos[1][0]][king_pos[1][1]];
+            King king = new King("a1","w");
+            if (piece.getName().equals("K")) {
+                king = (King) piece;
             }
+            if (piece.getSide().equals("w")) {
+                is_white=true;
+            }
+
             //it checks if are the towers or the kings that are tryng to move 
             //if that so it cancels the ability of the king to caste later on in the game
             //the piece that is controlled must be able to move otherwise is useless to check if the king can't blunder anymore
-            if((((y==0)&&(is_white))||((y==7)&&(!is_white)))&&((king.can_castle_long)||(king.can_castle_short))&&output&&((piece.getName().equals("R"))||(piece.getName().equals("K")))) {
-                if(x==0) {
-                  if((piece.getName().equals("R"))) {
-                    if(is_white) {
-                            king.can_castle_long=false;
+            if((((y==0)&&(is_white))||((y==7)&&(!is_white)))&&((king.can_castle_long)||(king.can_castle_short))&&output&&((piece.getName().equals("R"))||piece.getName().equals("K"))) {
+                if((piece.getName().equals("R"))) {
+                    if(x==0) {
+                        if(is_white) {
+                            king.can_castle_long = false;
                         } else {
                             king.can_castle_short=false;
                         }
-                    }  else if(piece.getName().equals("K")) {
+                    } else if(x==7) {
+                        if(is_white) {
                             king.can_castle_short=false;
-                            king.can_castle_long=false;
+                        } else {
+                            king.can_castle_long = false;
+                        }
                     }
-                } else if(x==7) {
-                 if((piece.getName().equals("R"))) {
-                    if(is_white) {
-                            king.can_castle_short=false;
-                    } else {
-                            king.can_castle_long=false;
+                }
+                else if(piece.getName().equals("K")) {
+                    king.can_castle_short=false;
+                    king.can_castle_long=false;
+                    //Now that the king has moved it moves the rook completing
+                    //the castling
+                    if (Math.abs(y_dest-y)==0) {
+                        if (x > x_dest) {
+                            Rook rook = (Rook) table[y][0];
+                            table[y][0] = null;
+                            rook.setX(3);
+                            setPiece(rook);
+                        } else {
+                            Rook rook = (Rook) table[y][7];
+                            table[y][7] = null;
+                            rook.setX(5);
+                            setPiece(rook);
+                        }
                     }
-                 }else if(piece.getName().equals("K")) {
-                            king.can_castle_short=false;
-                            king.can_castle_long=false;
-                  }
-               }
-               //if after the move the player king is under check it means that the piece that the ue moved was
-               //in between the king and its checker, so it's an invalid move, if the piece moved is the king no checks is needed
-            } if((!piece.getName().equals("K"))&&(king.underCheck(-1, -1, table))) {
+                }
+            }
+
+            //if after the move the player king is under check it means that the piece that the ue moved was
+            //in between the king and its checker, so it's an invalid move, if the piece moved is the king no checks is needed
+            if((!piece.getName().equals("K"))&&(king.underCheck(-1, -1, table))) {
                     piece.setX(x_dest);
                     piece.setY(y_dest);
-                    table[y_dest][x_dest] = null;      
+                    table[y_dest][x_dest] = null;
                     setPiece(piece);
                     output= false;
             }

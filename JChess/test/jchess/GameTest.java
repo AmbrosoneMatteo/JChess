@@ -35,6 +35,7 @@ public class GameTest {
         }
         System.out.println("//-->Ending testMove()");
     }
+
     @Test
     public void testIsSomeoneNotInTheMiddle() {
         System.out.println("//-->Starting testIsSomeoneNotInTheMiddle()");
@@ -60,7 +61,7 @@ public class GameTest {
         game = new Game("test");
         Pieces[] pieces = {
             new Rook("h3","w"),
-            new Queen("a4","b"),
+            new Queen("b3","b"),
             new Bishop("g5","b"),
             new Pawn("h6","b"),
             new Pawn("h2","w") 
@@ -92,7 +93,7 @@ public class GameTest {
            for(var move: moves) {
                assertTrue("move -> "+move+" is invalid",game.move(move));
            }
-           if(game.getTable()[0][4].getName()=="K") {
+           if(game.getTable()[0][4].getName().equals("K")) {
                 King king = new King("e1","w");
                 assertFalse(king.underCheck(-1,-1,game.getTable()));
            }
@@ -102,13 +103,28 @@ public class GameTest {
     public void testKingCanCastle() {
          System.out.println("//-->Starting testKingCanCastle()");
         game = new Game("normal");
-        String[] moves = {"e2e4","e7e5","f1c4","b8c6","g1f3","f8c5","e1g1"};
+        String[] moves = {"e2e4","e7e5","f1c4","b8c6","g1f3","f8c5"};
         for(int i = 0; i<moves.length;i++) {
             assertTrue("move ->"+moves[i]+" is invalid",game.move(moves[i]));
         }
         King king = (King) game.getTable()[0][4]; 
-        assertTrue(king.canCastle(game.getTable(), 6));
-         System.out.println("//-->Ending testKingCanCastle()");
+        assertTrue(game.move("e1g1"));
+        assertTrue(game.getTable()[0][5].getName().equals("R"));
+        System.out.println("//-->Ending testKingCanCastle()");
+    }
+    @Test
+    public void testKingCanCastleLong() {
+        System.out.println("//-->Starting testKingCanCastle()");
+        game = new Game("normal");
+        String[] moves = {"d2d4","d7d5","c1f4","c8f5","b1c3","g8f6","d1d2","b8c6"};
+        for(int i = 0; i<moves.length;i++) {
+            assertTrue("move ->"+moves[i]+" is invalid",game.move(moves[i]));
+        }
+        King king = (King) game.getTable()[0][4];
+        //assertTrue(king.canCastle(game.getTable(), 2));
+        assertTrue(game.move("e1c1"));
+        assertTrue(game.getTable()[0][3].getName().equals("R"));
+        System.out.println("//-->Ending testKingCanCastle()");
     }
     //this test checks that no piece can move where its move cause his own king to be under check
     @Test 
