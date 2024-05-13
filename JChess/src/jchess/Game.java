@@ -23,8 +23,8 @@ public class Game {
     final static protected String[] alphabet = {"a","b","c","d","e","f","g","h"};
     private Pieces[][] table = new Pieces[8][8];
     public int[][] king_pos = {{0,4},{7,4}};
-    public boolean white_under_check = false;
-    public boolean black_under_check = false;    
+    private boolean whiteUnderCheck = false;
+    private boolean blackUnderCheck = false;
     static private Pieces[] pieces = {
         new Pawn("a2","w"),
         new Pawn("b2","w"),
@@ -125,7 +125,7 @@ public class Game {
             setPiece(piece);
             output= true;
             boolean is_white = false;
-            King king = new King("a1","w");
+            King king = null;
             if (piece.getName().equals("K")) {
                 king = (King) piece;
             }
@@ -219,5 +219,31 @@ public class Game {
         for (int c = 0; c < 3; c++)  {
             System.out.println();
         }
+    }
+
+    public boolean isWhiteUnderCheck() {
+        King k = null;
+        for(int i = 0; i < table.length; i++){
+            for(int j = 0; j < table[i].length; j++){
+                if(table[i][j].getName().equals("K") && table[i][j].getSide().equals("w")){
+                    k = (King) table[i][j];
+                }
+            }
+        }
+        whiteUnderCheck = k.underCheck(-1, -1, this.table);
+        return whiteUnderCheck;
+    }
+
+    public boolean isBlackUnderCheck() {
+        King k = null;
+        for(int i = 0; i < table.length; i++){
+            for(int j = 0; j < table[i].length; j++){
+                if(table[i][j].getName().equals("K") && table[i][j].getSide().equals("b")){
+                    k = (King) table[i][j];
+                }
+            }
+        }
+        blackUnderCheck = k.underCheck(-1, -1, this.table);
+        return blackUnderCheck;
     }
 }
