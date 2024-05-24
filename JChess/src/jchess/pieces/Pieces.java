@@ -84,6 +84,7 @@ public abstract class Pieces implements Control {
         return false;
     }
     public int find(String letter) {
+        letter = letter.toLowerCase();
         int output = 0;
         for(int i = 0;i<alphabet.length;i++) {
             if(alphabet[i].equals(letter)) {

@@ -101,6 +101,7 @@ public class Game {
          */
     }
     public static int find(String letter) {
+        letter = letter.toLowerCase();
         int output = 0;
         for(int i = 0;i<alphabet.length;i++) {
             if(alphabet[i].equals(letter)) {
@@ -115,11 +116,11 @@ public class Game {
         int y = Integer.parseInt(move.substring(1,2))-1;
         int x_dest = find(move.substring(2,3));
         int y_dest = Integer.parseInt(move.substring(3,4))-1;
-        if(table[y][x].canMove(move.substring(2,4),table)) {
+        if((table[y][x]!=null)&&(table[y][x].canMove(move.substring(2,4),table))) {
             //if the piece can move to the destination,
             //it gets deleted from the old position and move to the new one
             Pieces piece = table[y][x];
-            table[y][x] = null;               
+            table[y][x] = null;
             piece.setX(x_dest);
             piece.setY(y_dest);
             setPiece(piece);
@@ -194,6 +195,9 @@ public class Game {
     }
     public void setPiece(Pieces Piece) {
         table[Piece.getY()][Piece.getX()] = Piece;
+    }
+    public Pieces getPiece(int y ,int x) {
+        return table[y][x];
     }
     public void printTerminalChessboard() {
         boolean white_cell = false;
