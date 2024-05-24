@@ -197,8 +197,9 @@ public class Game {
     }
     public void printTerminalChessboard() {
         boolean white_cell = false;
-        for(var i: table) {
-            for(var l: i) {
+        for(int i = table.length - 1; i >= 0; i--){
+            for(int j = 0; j < table[i].length; j++){
+                var l = table[i][j];
                 if(l!=null) {
                     if(l.getSide().equals("w")) {
                         System.out.print(blue+l.getName()+reset);
@@ -216,9 +217,9 @@ public class Game {
             }
             System.out.println();
         }
-        for (int c = 0; c < 3; c++)  {
-            System.out.println();
-        }
+        System.out.println();
+        System.out.println();
+        System.out.println();
     }
 
     public boolean isWhiteUnderCheck() {
