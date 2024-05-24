@@ -125,7 +125,7 @@ public class Game {
             setPiece(piece);
             output= true;
             boolean is_white = false;
-            King king = null;
+            King king = new King("a1","w");
             if (piece.getName().equals("K")) {
                 king = (King) piece;
             }

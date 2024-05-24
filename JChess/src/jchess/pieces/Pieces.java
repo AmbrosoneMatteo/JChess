@@ -4,13 +4,15 @@
  */
 package jchess.pieces;
 
+import java.io.Serializable;
+
 import static jchess.Game.find;
 
 /**
  *
  * @author matteo.ambrosone
  */
-public abstract class Pieces implements Control {
+public abstract class Pieces implements Control, Serializable {
     protected int x;
     protected int y;
     protected String name;
