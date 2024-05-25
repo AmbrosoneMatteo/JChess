@@ -26,16 +26,15 @@ public class Queen extends Pieces {
         //the queen can move as a Bishop or as a Rook, so we can just copy the controls from the 2 pieces
         if ((table[y_dest][x_dest]== null)||(table[y_dest][x_dest].getSide()!= side)) {
             //we must make sure that the piece remains inside in the chesboard
-            if((y_dest>=0)&&(y_dest<=7)&&(y_dest>=0)&&(y_dest<=7)) {
-                
-            }
-            if((x_dest==x)||(y_dest==y)) {
-                output = true;
-            }else if((Math.abs(y_dest-y)==Math.abs(x_dest-x))){
-                output=true;
-            }
-            if((output)&&(isSomeoneInTheMiddle(move,table))) {
-                output=false;
+            if((y_dest>=0)&&(y_dest<=7)&&(y_dest>=0)&&(y_dest<=7)) { //if it's inside the chessboard
+                if((x_dest==x)||(y_dest==y)) { //if the moves corrispond to the same column or row
+                    output = true;
+                }else if((Math.abs(y_dest-y)==Math.abs(x_dest-x))){ //if the queen is mooving diagonally
+                    output=true;
+                }
+                if((output)&&(isSomeoneInTheMiddle(move,table))) { //if there's someone in the middle the move is invalid
+                    output=false;
+                }
             }
         }
         return output;

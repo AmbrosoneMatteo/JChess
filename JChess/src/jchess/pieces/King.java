@@ -23,13 +23,15 @@ public class King extends Pieces {
         boolean output=false;
         int x_dest = find(move.substring(0,1));
         int y_dest = Integer.parseInt(move.substring(1,2))-1;
-        if((Math.abs(x_dest-x)<=1)&&(Math.abs(y_dest-y)<=1)) {
-            if(!underCheck(x_dest,y_dest, table)){
-                     output = true;
-            }
-        } else if ((Math.abs(x_dest-x)<=2)&&(Math.abs(y_dest-y)<=0)) {
-            if(canCastle(table, x_dest)) {
-                output=true;
+        if((table[y_dest][x_dest]==null)||(!table[y_dest][x_dest].getSide().equals(side))) {
+            if((Math.abs(x_dest-x)<=1)&&(Math.abs(y_dest-y)<=1)) {
+                if(!underCheck(x_dest,y_dest, table)){
+                    output = true;
+                }
+            } else if ((Math.abs(x_dest-x)<=2)&&(Math.abs(y_dest-y)<=0)) {
+                if(canCastle(table, x_dest)) {
+                    output=true;
+                }
             }
         }
         return output;
@@ -64,9 +66,9 @@ public class King extends Pieces {
     public boolean canCastle(Pieces[][] table, int x_dest) {
         boolean output = false;
         if((((side.equals("w"))&&(y==0))||((side.equals("b"))&&(y==7)))&&(x==4)&&(!underCheck(-1, -1, table))) {
-            if((x_dest<x)&&(((side.equals("w")))&&(can_castle_long))||(((side.equals("b")))&&(can_castle_short))) {
+            if((x_dest<x)&&((((side.equals("w")))&&(can_castle_long))||(((side.equals("b")))&&(can_castle_short)))) {
                 for(int i = x-1; i>0;i--) {
-                    if((table[y][i]!=null)&&(!underCheck(x,y,table))) {
+                    if((table[y][i]!=null)&&(underCheck(x,y,table))) {
                         output = false;
                         break;
                     } else {
@@ -75,7 +77,7 @@ public class King extends Pieces {
                 }
             } else if((((side.equals("w")))&&(can_castle_short))||(((side.equals("b")))&&(can_castle_long)))  {
                 for(int i = x+1; i<7;i++) {
-                    if((table[y][i]!=null)&&(!underCheck(x,y,table))) {
+                    if((table[y][i]!=null)&&(underCheck(x,y,table))) {
                         output = false;
                         break;
                     } else {
