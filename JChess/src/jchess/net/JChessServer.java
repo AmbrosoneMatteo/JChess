@@ -7,11 +7,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class JChessServer {
-    private static final int PORT = 3000;
-    private static ArrayList<JChessGameThread> gameThreads = new ArrayList<JChessGameThread>();
+public class JChessServer implements Runnable{
+    private final int PORT = 3000;
+    private ArrayList<JChessGameThread> gameThreads = new ArrayList<JChessGameThread>();
 
-    public static void main(String[] args) {
+    @Override
+    public void run() {
         Logger.log("JChess Server Started");
         try {
             ServerSocket server = new ServerSocket(3000);

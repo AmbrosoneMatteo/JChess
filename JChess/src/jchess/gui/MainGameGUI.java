@@ -1,29 +1,38 @@
-package gui;
+package jchess.gui;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import jchess.Game;
-import jchess.pieces.*;
-import java.io.IOException;
-import java.util.Hashtable;
+import jchess.net.JChessClient;
 
-public class MainGameGUI extends Application {
+import java.io.IOException;
+
+public class MainGameGUI extends Application implements Runnable{
     Game game;
+    JChessClient client;
     final protected String[] alphabet = {"a","b","c","d","e","f","g","h"};
-    public static void main(String[] args) {
-        launch(args);
+    @Override
+    public void run() {
+        // Ensure JavaFX initializes in the JavaFX Application Thread
+        Platform.startup(() -> {
+            try {
+                start(new Stage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
     String move = "";
     Scene scene;
@@ -33,7 +42,7 @@ public class MainGameGUI extends Application {
         try {
             game = new Game("normal"); //creates a new game in normal mode
             //Loading the MainGame GUI prom the fxml file
-            Parent root = FXMLLoader.load(getClass().getResource("./MainGameGUI.fxml")); //load the FXML scene
+            Parent root = FXMLLoader.load(getClass().getResource("MainGameGUI.fxml")); //load the FXML scene
             primaryStage.setTitle("JChess");
             primaryStage.setScene(new Scene(root));
             scene = primaryStage.getScene();
@@ -54,6 +63,14 @@ public class MainGameGUI extends Application {
             }
             primaryStage.setScene(scene);
             primaryStage.show();
+
+            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent t) {
+                    Platform.exit();
+                    System.exit(0);
+                }
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,6 +111,14 @@ public class MainGameGUI extends Application {
                    view.setVisible(false);
                    view.idProperty().setValue("eliminated"); //set the id to eliminated so it doesn't get picked again
                 }
+
+                // Sending the move to the server
+                try {
+                    client.sendPlayerMove(this.move + action);
+                } catch (IOException e) {
+                    System.err.println(e.getMessage());
+                }
+
                 movePiece(move,action);
                 repaint(); //reset board colors
             } else {
@@ -120,7 +145,7 @@ public class MainGameGUI extends Application {
         }
     }
 
-    private void repaint() {
+    public void repaint() {
         boolean white = false;
         for(int column = 0; column<8;column++) {
             for (int row =1; row<=8;row++) {
@@ -148,5 +173,21 @@ public class MainGameGUI extends Application {
         board.setRowIndex(piece,7-y);
         board.setColumnIndex(piece,x);
         piece.idProperty().setValue("p"+destination);
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public JChessClient getClient() {
+        return client;
+    }
+
+    public void setClient(JChessClient client) {
+        this.client = client;
     }
 }
