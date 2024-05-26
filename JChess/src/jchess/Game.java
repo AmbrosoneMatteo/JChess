@@ -23,8 +23,8 @@ public class Game {
     final static protected String[] alphabet = {"a","b","c","d","e","f","g","h"};
     private Pieces[][] table = new Pieces[8][8];
     public int[][] king_pos = {{0,4},{7,4}};
-    public boolean white_under_check = false;
-    public boolean black_under_check = false;    
+    private boolean whiteUnderCheck = false;
+    private boolean blackUnderCheck = false;
     static private Pieces[] pieces = {
         new Pawn("a2","w"),
         new Pawn("b2","w"),
@@ -201,8 +201,9 @@ public class Game {
     }
     public void printTerminalChessboard() {
         boolean white_cell = false;
-        for(var i: table) {
-            for(var l: i) {
+        for(int i = table.length - 1; i >= 0; i--){
+            for(int j = 0; j < table[i].length; j++){
+                var l = table[i][j];
                 if(l!=null) {
                     if(l.getSide().equals("w")) {
                         System.out.print(blue+l.getName()+reset);
@@ -220,8 +221,34 @@ public class Game {
             }
             System.out.println();
         }
-        for (int c = 0; c < 3; c++)  {
-            System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+    }
+
+    public boolean isWhiteUnderCheck() {
+        King k = null;
+        for(int i = 0; i < table.length; i++){
+            for(int j = 0; j < table[i].length; j++){
+                if(table[i][j].getName().equals("K") && table[i][j].getSide().equals("w")){
+                    k = (King) table[i][j];
+                }
+            }
         }
+        whiteUnderCheck = k.underCheck(-1, -1, this.table);
+        return whiteUnderCheck;
+    }
+
+    public boolean isBlackUnderCheck() {
+        King k = null;
+        for(int i = 0; i < table.length; i++){
+            for(int j = 0; j < table[i].length; j++){
+                if(table[i][j].getName().equals("K") && table[i][j].getSide().equals("b")){
+                    k = (King) table[i][j];
+                }
+            }
+        }
+        blackUnderCheck = k.underCheck(-1, -1, this.table);
+        return blackUnderCheck;
     }
 }
