@@ -23,13 +23,15 @@ public class Rook extends Pieces {
         int x_dest = find(move.substring(0,1));
         int y_dest = Integer.parseInt(move.substring(1,2))-1;
         //we must check that only a line chenges and that the rook remains inside the chessboard
-        if((x_dest==x)&&((y_dest>=0)&(y_dest<=7))) {
-            output = true;
-        } else if((y_dest==y)&&((x_dest>=0)&(x_dest<=7))) {
-            output = true;
-        }
-        if((output)&&(isSomeoneInTheMiddle(move,table))) {
-            output=false;
+        if((table[y_dest][x_dest]!=null)&&(!table[y_dest][x_dest].getSide().equals(side))) {
+            if((x_dest==x)&&((y_dest>=0)&(y_dest<=7))) {
+                output = true;
+            } else if((y_dest==y)&&((x_dest>=0)&(x_dest<=7))) {
+                output = true;
+            }
+            if((output)&&(isSomeoneInTheMiddle(move,table))) {
+                output=false;
+            }
         }
         return output;
     }

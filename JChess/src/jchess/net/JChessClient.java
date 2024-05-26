@@ -5,6 +5,9 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import jchess.Game;
+import jchess.gui.MainGameGUI;
+
 public class JChessClient {
     private static final String SERVER_ADDR = "127.0.0.1";
     private static final int SERVER_PORT = 3000;
@@ -13,6 +16,7 @@ public class JChessClient {
     private static InputStream in;
     public static void main(String[] args) {
         try {
+            MainGameGUI game = new MainGameGUI();
             server = new Socket(SERVER_ADDR, SERVER_PORT);
             in = server.getInputStream();
             out = server.getOutputStream();
@@ -24,6 +28,8 @@ public class JChessClient {
                     sendPlayerMove();
                 }else{ // The server is sending something else (opponent move)
                     System.out.println("Opponent move: " + receivedString);
+                    game.move(receivedString.substring(0,2));
+                    game.move(receivedString.substring(2,4));
                 }
             }
         } catch (IOException e) {

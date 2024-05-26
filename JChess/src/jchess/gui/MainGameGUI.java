@@ -1,4 +1,4 @@
-package gui;
+package jchess.gui;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -6,18 +6,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import jchess.Game;
-import jchess.pieces.*;
+
 import java.io.IOException;
-import java.util.Hashtable;
 
 public class MainGameGUI extends Application {
     Game game;
@@ -33,7 +30,7 @@ public class MainGameGUI extends Application {
         try {
             game = new Game("normal"); //creates a new game in normal mode
             //Loading the MainGame GUI prom the fxml file
-            Parent root = FXMLLoader.load(getClass().getResource("./MainGameGUI.fxml")); //load the FXML scene
+            Parent root = FXMLLoader.load(getClass().getResource("MainGameGUI.fxml")); //load the FXML scene
             primaryStage.setTitle("JChess");
             primaryStage.setScene(new Scene(root));
             scene = primaryStage.getScene();
