@@ -99,6 +99,20 @@ public class GameTest {
            }
          System.out.println("//-->Ending testIsKingNotUnderCheck()");
     }
+    @Test
+    public void testKingCannotCastle() {
+        game = new Game("test");
+        Pieces[] pieces = {
+            new Rook("h8","b"),
+            new King("e8","b"),
+            new Bishop("c4","w")
+        };
+        for (var i: pieces) {
+            game.setPiece(i);
+        }
+        King king = (King) pieces[1];
+        assertFalse(king.canCastle(game.getTable(), 6));
+    }
     @Test 
     public void testKingCanCastle() {
          System.out.println("//-->Starting testKingCanCastle()");

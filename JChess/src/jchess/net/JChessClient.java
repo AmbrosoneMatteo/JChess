@@ -22,6 +22,7 @@ public class JChessClient implements Runnable{
     @Override
     public void run() {
         try {
+            MainGameGUI game = new MainGameGUI();
             server = new Socket(SERVER_ADDR, SERVER_PORT);
             in = server.getInputStream();
             out = server.getOutputStream();
