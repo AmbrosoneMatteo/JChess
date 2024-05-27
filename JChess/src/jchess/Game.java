@@ -202,9 +202,9 @@ public class Game {
             }
             System.out.println();
         }
-        System.out.println();
-        System.out.println();
-        System.out.println();
+        for (int c = 0; c < 3; c++)  {
+            System.out.println();
+        }
     }
 
     public boolean isWhiteUnderCheck() {

@@ -36,8 +36,26 @@ public class Pawn extends Pieces {
             } else if((Math.abs(x_dest-x)==1)&&(Math.abs(y_dest-y)==1)) {
                 //if the pawn moved of one cell horizontally and advanced of 1cell
                 //the only way that it's a valid move is that the destination house an enemy piece
+
                 if(!table[y_dest][x_dest].side.equals(side)) {
                     output=true;
+
+                    // Verifica se il movimento è diagonale
+                    if(Math.abs(x_dest - x) == Math.abs(y_dest - y)) {
+                        int x_step = (x_dest - x) / Math.abs(x_dest - x);
+                        int y_step = (y_dest - y) / Math.abs(y_dest - y);
+                        int x_current = x + x_step;
+                        int y_current = y + y_step;
+                        boolean canCapture = false;
+                    }else{
+                        // Controlla se ci sono pezzi avversari nella colonna a sinistra o a destra
+                        int x_left = x - 1;
+                        int x_right = x + 1;
+                        boolean canCaptureLeft = (x_left >= 0 && table[y][x_left] != null && !table[y][x_left].getSide().equals(table[y][x].getSide()));
+                        boolean canCaptureRight = (x_right < 8 && table[y][x_right] != null && !table[y][x_right].getSide().equals(table[y][x].getSide()));
+                        boolean canCapture = true;
+
+                    }
                 }
             }
         }
