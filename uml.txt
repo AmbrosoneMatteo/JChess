@@ -1,72 +1,155 @@
 @startuml
 class Game{
-    table: Pieces[][]
-    board: Board
+   - red: String                
+   - blue: String               
+   - reset: String             
+   - alphabet: String[]         
+   - table: Pieces[][]          
+   - king_pos: int[][]          
+   - whiteUnderCheck: boolean   
+   - blackUnderCheck: boolean   
+   - white_moves: boolean       
+   + pieces: Pieces[] 
 
-    isSomeoneInTheMiddle(): boolean
-    move(String move): boolean
-    getTable: Pieces[][]
-    setPiece(): boolean
+   + Game(mode: String)        
+   + initialize(): void        
+   + find(letter: String): int 
+   + move(move: String): boolean
+   + getStaticTable(): Pieces[][]
+   + getTable(): Pieces[][]    
+   + setPiece(Piece: Pieces): void
+   + getPiece(y: int, x: int): Pieces
+   + printTerminalChessboard(): void
+   + isWhiteUnderCheck(): boolean
+   + isBlackUnderCheck(): boolean
 }
 
 class Board {
 
 }
 
-class Player {
-    name: String
-    points: int
-}
-
 class Pieces implements Control {
-    name: String
-    side: String
-    x: int
-    y: int
-    alphabet: String[]
-    setX(): void
-    setY(): void
-    setName(): void
-    setSide(): void
-    getX(): void
-    getY(): void
-    getName(): void
-    getSide(): void
-    canMove(): boolean
+   - x: int                     
+   - y: int                      
+   - name: String                
+   - side: String                
+   - alphabet: String[]         
+
+   + getX(): int                 
+   + setX(x: int): void          
+   + getY(): int                 
+   + setY(y: int): void          
+   + getName(): String           
+   + setName(name: String): void 
+   + getSide(): String           
+   + setSide(side: String): void 
+   + isSomeoneInTheMiddle(destination: String, table: Pieces[][]): boolean 
+   + canMove(move: String, table: Pieces[][]): boolean 
+   + find(letter: String): int
 }
 
 class Bishop extends Pieces {
-    canMove(): boolean
-    givesCheck(): boolean
+    + Bishop(position: String, side: String)
+    
+    + canMove(move: String, table: Pieces[][]): boolean
+    + givesCheck(): boolean
 }
 
 class Niece extends Pieces {
-    canMove(): boolean
-    givesCheck(): boolean
+    + canMove(): boolean
+    + givesCheck(): boolean
 }
 
 class Queen extends Pieces {
-    canMove(): boolean
-    givesCheck(): boolean
+    + Queen(position: String, side: String)
+
+    + canMove(move: String, table: Pieces[][]): boolean
+    + givesCheck(): boolean
 }
 
 class Rook extends Pieces {
-    canMove(): boolean
-    givesCheck(): boolean
+    + Rook (position: String, side: String)
+
+    + canMove(move: String, table: Pieces[][]): boolean
+    + givesCheck(): boolean
 }
 
 class King extends Pieces {
-    canMove(): boolean
-    givesCheck(): boolean
+   + can_castle_short: boolean 
+   + can_castle_long: boolean
+
+   + King(position: String, side: String) 
+   + canMove(move: String, table: Pieces[][]): boolean 
+   + underCheck(vx: int, vy: int, table: Pieces[][]): boolean 
+   + canCastle(table: Pieces[][], x_dest: int): boolean
+   + givesCheck(): boolean
 }
 
 class Pawn extends Pieces {
-    canMove(): boolean
-    givesCheck(): boolean
+   + Pawn(position: String, side: String)
+
+   + canMove(move: String, table: Pieces[][]): boolean  
+   + givesCheck(): boolean
+}
+
+class Knight extends Pieces {
+    + Knight(position: String, side: String)
+
+    + canMove(move: String, table: Pieces[][]): boolean  
+    + givesCheck(): boolean
 }
 
 interface Control {
-    canMove(): boolean 
-    givesCheck(): boolean
+    + canMove(): boolean  
+    + givesCheck(): boolean
+}
+
+
+class JChessClient{
+  - SERVER_ADDR: String 
+  - SERVER_PORT: int  
+  - server: Socket   
+  - out: OutputStream 
+  - in: InputStream  
+
+    main(String[]): void           
+  + sendPlayerMove(): void        
+  + receiveRequest(): ArrayList<Byte>
+  - getStringFromBytes(ArrayList<Byte>): Stringmain(String[]): void          
+  + sendPlayerMove(): void       
+  + receiveRequest(): ArrayList<Byte> 
+  - getStringFromBytes(ArrayList<Byte>): String
+
+
+}
+
+class JChessGameThread implements Runnable{
+  - player1: Socket                
+  - player2: Socket                
+  - game: Game                     
+  - player1Input: InputStream     
+  - player2Input: InputStream     
+  - player1Output: OutputStream   
+  - player2Output: OutputStream   
+
+  + JChessGameThread(Socket, Socket, Game) 
+  + run(): void                    
+  - getPlayerMove(InputStream): ArrayList<Byte> 
+  - sendMove(ArrayList<Byte>, OutputStream): void 
+  - sendRequestMove(OutputStream): void 
+  - getStringFromBytes(ArrayList<Byte>): String 
+  + getBytesFromString(String): ArrayList<Byte> 
+}
+
+
+class JChessServer{
+  - PORT: int                   
+  - gameThreads: ArrayList<JChessGameThread>
+
+  + main(String[]): void  
+}
+
+class Logger{
+  + log(String): void   
 }
 @enduml
