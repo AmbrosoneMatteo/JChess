@@ -10,8 +10,9 @@ import jchess.net.JChessClient;
  */
 public class JChessClientMain {
     public static void main(String[] args) {
-        MainGameGUI gui = new MainGameGUI();
-        JChessClient client = new JChessClient(gui);
+        Game game = new Game("normal");
+        MainGameGUI gui = new MainGameGUI(game);
+        JChessClient client = new JChessClient(gui, game);
         gui.setClient(client);
 
         new Thread(client).start();

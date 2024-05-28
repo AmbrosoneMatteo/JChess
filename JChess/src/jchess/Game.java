@@ -232,4 +232,40 @@ public class Game {
         blackUnderCheck = k.underCheck(-1, -1, this.table);
         return blackUnderCheck;
     }
+
+    public boolean isWhite_moves() {
+        return white_moves;
+    }
+
+    public void setWhite_moves(boolean white_moves) {
+        this.white_moves = white_moves;
+    }
+
+    public int getCountBlackPieces(){
+        int count = 0;
+        for(int i = 0; i < table.length; i++){
+            for(int j = 0; j < table[i].length; j++){
+                if(table[i][j] != null){
+                    if(table[i][j].getSide().equals("b")){
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    public int getCountWhitePieces(){
+        int count = 0;
+        for(int i = 0; i < table.length; i++){
+            for(int j = 0; j < table[i].length; j++){
+                if(table[i][j] != null){
+                    if(table[i][j].getSide().equals("w")){
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
+    }
 }

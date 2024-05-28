@@ -30,17 +30,17 @@ public class JChessGameThread implements Runnable{
     @Override
     public void run() {
         try {
+            sendStart(player1Output, "w");
+            sendStart(player2Output, "b");
             while(true){
                 sendRequestMove(player1Output);
                 ArrayList<Byte> player1Move = getPlayerMove(player1Input);
-                game.move(getStringFromBytes(player1Move));
 
                 // Sending the opponent move (player 1 move) to player2
                 sendMove(player1Move, player2Output);
 
                 sendRequestMove(player2Output);
                 ArrayList<Byte> player2Move = getPlayerMove(player2Input);
-                game.move(getStringFromBytes(player2Move));
 
                 // Sending the opponent move (player 2 move) to player 1
                 sendMove(player2Move, player1Output);
@@ -50,7 +50,7 @@ public class JChessGameThread implements Runnable{
         }
     }
 
-    public ArrayList<Byte> getPlayerMove(InputStream playerInput) throws IOException {
+    private ArrayList<Byte> getPlayerMove(InputStream playerInput) throws IOException {
         ArrayList<Byte> msg = new ArrayList<Byte>();
         int read = 0;
         while((read = playerInput.read()) != 10){
@@ -71,6 +71,12 @@ public class JChessGameThread implements Runnable{
         sendMove(msg, playerOutput);
     }
 
+    private void sendStart(OutputStream playerOutput, String side) throws IOException {
+        String data = "START " + side;
+        ArrayList<Byte> msg = getBytesFromString(data);
+        sendMove(msg, playerOutput);
+    }
+
     private String getStringFromBytes(ArrayList<Byte> bytes){
         String out = "";
         for(byte b : bytes){
@@ -79,7 +85,7 @@ public class JChessGameThread implements Runnable{
         return out;
     }
 
-    public static ArrayList<Byte> getBytesFromString(String string) {
+    private static ArrayList<Byte> getBytesFromString(String string) {
         ArrayList<Byte> byteArrayList = new ArrayList<>();
         for (char c : string.toCharArray()) {
             byteArrayList.add((byte) c);
